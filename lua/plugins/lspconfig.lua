@@ -22,7 +22,12 @@ return {
       servers = {
         -- omnisharp will be automatically installed with mason and loaded with lspconfig
         omnisharp = {
-          --handlers = { ["textDocument/definition"] = require("omnisharp_extended").handler, },
+          --handlers = { ["textDocument/definition"] = require("omnisharp_extended").handler(), },
+          handlers = {
+            ["textDocument/definition"] = function ()
+              return require("omnisharp_extended").handler()
+            end
+          },
           cmd = { "/home/miles/.local/share/nvim/mason/bin/omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
           on_attach = (function (client, _)
             local function toSnakeCase(str)
@@ -67,7 +72,6 @@ return {
 
   {
     "Hoffs/omnisharp-extended-lsp.nvim",
-    lazy = false,
-    --ft = "cs",
-  }
+    ft = "cs",
+  },
 }
