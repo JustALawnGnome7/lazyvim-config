@@ -1,6 +1,3 @@
---local omnisharp_extended = require("Hoffs/omnisharp-extended-lsp.nvim")
---local omnisharp_extended = require("omnisharp_extended").handler
-
 return {
   -- add C# to the list of supported treesitter languages
   {
@@ -16,20 +13,24 @@ return {
   -- Configure omnisharp (C#) settings
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "OmniSharp/omnisharp-vim",
+      "Hoffs/omnisharp-extended-lsp.nvim",
+    },
     ---@class PluginLspOpts
     opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- omnisharp will be automatically installed with mason and loaded with lspconfig
-        omnisharp = {
-          --handlers = { ["textDocument/definition"] = require("omnisharp_extended").handler(), },
-          handlers = {
-            ["textDocument/definition"] = function ()
-              return require("omnisharp_extended").handler()
-            end
-          },
-          cmd = { "/home/miles/.local/share/nvim/mason/bin/omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
-          on_attach = (function (client, _)
+      setup = {
+        omnisharp = function(_, opts)
+          -- opts.cmd = { "/home/miles/.local/share/nvim/mason/packages/omnisharp/omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
+          -- opts.cmd = { "/home/miles/.cache/omnisharp-vim/omnisharp-roslyn/run", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
+          -- opts.cmd = { "/home/miles/.cache/omnisharp-vim/omnisharp-roslyn/omnisharp/OmniSharp.exe", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
+          opts.cmd = { "dotnet", "/home/miles/.cache/omnisharp-vim/omnisharp-roslyn/OmniSharp.dll", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
+          -- opts.cmd = { "/home/miles/.cache/omnisharp-vim/omnisharp-roslyn/OmniSharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
+          opts.handlers = {
+            ["textDocument/definition"] = require("omnisharp_extended").handler,
+          }
+
+          opts.on_attach = function (client, _)
             local function toSnakeCase(str)
               return string.gsub(str, "%s*[- ]%s*", "_")
             end
@@ -43,35 +44,20 @@ return {
             for i, v in ipairs(tokenTypes) do
               tokenTypes[i] = toSnakeCase(v)
             end
-          end),
-          settings = {
-            omnisharp = {
-              useModernNet = false,
-              enableEditorConfigSupport = false,
-              enableDecompilationSupport = true,
-            },
-          },
-        },
-      },
-      setup = {
-        -- omnisharp = function(_, opts)
-        --   local pid = vim.fn.getpid()
-        --   local omnisharp_bin = "/home/miles/.local/share/nvim/mason/bin/omnisharp"
-        --   local config = {
-        --     handlers = { ["textDocument/definition"] = require("omnisharp_extended").handler, },
-        --     cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
-        --   }
-        --   --local omnisharp = require ("mason-lspconfig.server_configurations.omnisharp").setup({ server = opts })
-        --   --require("omnisharp").setup({ server = opts })
-        --   --require("lspconfig").omnisharp.setup(config)
-        --   return true
-        -- end,
+          end
+        end,
       }
     },
   },
 
+  { "Hoffs/omnisharp-extended-lsp.nvim", },
   {
-    "Hoffs/omnisharp-extended-lsp.nvim",
-    ft = "cs",
+    "OmniSharp/omnisharp-vim",
+    config = function()
+      vim.cmd([[
+        let g:OmniSharp_server_use_net6 = 1
+        " let g:OmniSharp_server_stdio = 1
+      ]])
+    end,
   },
 }
