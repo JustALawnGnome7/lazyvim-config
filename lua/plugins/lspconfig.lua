@@ -14,18 +14,14 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "OmniSharp/omnisharp-vim",
       "Hoffs/omnisharp-extended-lsp.nvim",
+      "OmniSharp/omnisharp-vim",
     },
     ---@class PluginLspOpts
     opts = {
       setup = {
         omnisharp = function(_, opts)
-          -- opts.cmd = { "/home/miles/.local/share/nvim/mason/packages/omnisharp/omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
-          -- opts.cmd = { "/home/miles/.cache/omnisharp-vim/omnisharp-roslyn/run", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
-          -- opts.cmd = { "/home/miles/.cache/omnisharp-vim/omnisharp-roslyn/omnisharp/OmniSharp.exe", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
-          opts.cmd = { "dotnet", "/home/miles/.cache/omnisharp-vim/omnisharp-roslyn/OmniSharp.dll", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
-          -- opts.cmd = { "/home/miles/.cache/omnisharp-vim/omnisharp-roslyn/OmniSharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
+          -- opts.cmd = { "dotnet", "/home/miles/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp.dll" }
           opts.handlers = {
             ["textDocument/definition"] = require("omnisharp_extended").handler,
           }
@@ -50,13 +46,12 @@ return {
     },
   },
 
-  { "Hoffs/omnisharp-extended-lsp.nvim", },
+  -- Configure omnisharp-vim to use the OmniSharp binary acquired through Mason
   {
     "OmniSharp/omnisharp-vim",
     config = function()
       vim.cmd([[
-        let g:OmniSharp_server_use_net6 = 1
-        " let g:OmniSharp_server_stdio = 1
+        let g:OmniSharp_server_path = "/home/miles/.local/share/nvim/mason/bin/omnisharp"
       ]])
     end,
   },
