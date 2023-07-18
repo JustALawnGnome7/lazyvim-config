@@ -39,27 +39,8 @@ return {
       },
       setup = {
         omnisharp = function(_, opts)
-          -- opts.cmd = { "dotnet", "/home/miles/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp.dll" }
-
           -- enable "Goto Definition" for metadata
           opts.handlers = { ["textDocument/definition"] = require("omnisharp_extended").handler, }
-
-          -- Temporary hack for: "https://github.com/OmniSharp/omnisharp-roslyn/issues/2483"
-          opts.on_attach = function (client, _)
-            local function toSnakeCase(str)
-              return string.gsub(str, "%s*[- ]%s*", "_")
-            end
-
-            local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
-            for i, v in ipairs(tokenModifiers) do
-              tokenModifiers[i] = toSnakeCase(v)
-            end
-
-            local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
-            for i, v in ipairs(tokenTypes) do
-              tokenTypes[i] = toSnakeCase(v)
-            end
-          end
         end,
       }
     },
