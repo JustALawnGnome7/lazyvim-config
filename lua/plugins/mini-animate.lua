@@ -1,10 +1,11 @@
 local animate = require('mini.animate')
+local neovide_undefined = vim.g.neovide == nil
 
 return {
   "echasnovski/mini.animate",
   config = {
     cursor = {
-      enable = true,
+      enable = neovide_undefined,
       timing = animate.gen_timing.linear({ duration = 100, unit = 'total' }),
     },
     scroll = {
