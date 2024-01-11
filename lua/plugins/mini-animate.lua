@@ -6,17 +6,18 @@ return {
   config = {
     cursor = {
       enable = neovide_undefined,
-      timing = animate.gen_timing.linear({ duration = 100, unit = 'total' }),
+      timing = animate.gen_timing.linear({ duration = AnimateSpeed.cursor_ms, unit = 'total' }),
     },
     scroll = {
-      enable = true,
-      timing = animate.gen_timing.linear({ duration = 150, unit = 'total' }),
+      enable = neovide_undefined,
+      -- enable = true,
+      timing = animate.gen_timing.linear({ duration = AnimateSpeed.scroll_ms, unit = 'total' }),
       -- Animate equally but with at most 120 steps instead of default 60
       -- subscroll = animate.gen_subscroll.equal({ max_output_steps = 120 }),
     },
     resize = {
       enable = true,
-      timing = animate.gen_timing.linear({ duration = 80, unit = 'total' }),
+      timing = animate.gen_timing.linear({ duration = AnimateSpeed.resize_ms, unit = 'total' }),
     },
     -- open = {
     --   -- Animate for 400 milliseconds with linear easing
