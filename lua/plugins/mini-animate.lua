@@ -9,8 +9,7 @@ return {
       timing = animate.gen_timing.linear({ duration = AnimateSpeed.cursor_ms, unit = 'total' }),
     },
     scroll = {
-      enable = neovide_undefined,
-      -- enable = true,
+      enable = true,
       timing = animate.gen_timing.linear({ duration = AnimateSpeed.scroll_ms, unit = 'total' }),
       -- Animate equally but with at most 120 steps instead of default 60
       -- subscroll = animate.gen_subscroll.equal({ max_output_steps = 120 }),

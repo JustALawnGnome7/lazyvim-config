@@ -3,7 +3,7 @@
 -- Add any additional options here
 
 vim.opt.scrolloff = 0 -- Lines of context
-vim.o.guifont = "Cascadia Mono:h13"
+vim.o.guifont = "Cascadia Mono:h12"
 
 AnimateSpeed = {
   cursor_ms = 100,
@@ -19,8 +19,7 @@ if vim.g.neovide then
   vim.g.neovide_cursor_antialiasing = true
   vim.g.neovide_unlink_border_highlights = true
 
-  vim.g.neovide_cursor_animation_length = AnimateSpeed.cursor_ms / 1000
-  vim.g.neovide_scroll_animation_length = AnimateSpeed.scroll_ms / 1000
-
+  -- vim.g.neovide_cursor_animation_length = AnimateSpeed.cursor_ms / 1000
+  -- vim.g.neovide_scroll_animation_length = AnimateSpeed.scroll_ms / 1000
   -- print(vim.g.neovide_scroll_animation_length) --use for debugging
 end
