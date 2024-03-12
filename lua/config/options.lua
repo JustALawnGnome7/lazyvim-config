@@ -4,6 +4,7 @@
 
 vim.opt.scrolloff = 0 -- Lines of context
 vim.o.guifont = "Cascadia Mono:h12"
+vim.g.autoformat = false
 
 AnimateSpeed = {
   cursor_ms = 100,
