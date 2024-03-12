@@ -26,6 +26,7 @@ return {
       },
     },
     opts = {
+      autoformat = false,
       -- make sure mason installs the server
       servers = {
         ---@type lspconfig.options.omnisharp
