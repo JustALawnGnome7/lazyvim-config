@@ -23,4 +23,17 @@ if vim.g.neovide then
   -- vim.g.neovide_cursor_animation_length = AnimateSpeed.cursor_ms / 1000
   -- vim.g.neovide_scroll_animation_length = AnimateSpeed.scroll_ms / 1000
   -- print(vim.g.neovide_scroll_animation_length) --use for debugging
+
+  local map = vim.keymap.set
+  local function neovide_scale(amount)
+    local new_scale_factor = vim.g.neovide_scale_factor + amount
+    if new_scale_factor < 0.5 then
+      return
+    end
+    vim.g.neovide_scale_factor = new_scale_factor
+  end
+
+  map("n", "<C-=>", function() neovide_scale(0.1) end)
+  map("n", "<C-->", function() neovide_scale(-0.1) end)
+
 end
