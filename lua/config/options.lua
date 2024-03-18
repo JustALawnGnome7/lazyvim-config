@@ -15,8 +15,9 @@ AnimateSpeed = {
 if vim.g.neovide then
   vim.g.neovide_transparency = 0.8
   -- vim.g.neovide_profiler = true --displays frame rate
-  vim.g.neovide_refresh_rate = 120
-  vim.g.neovide_refresh_rate_idle = 5
+  -- vim.g.neovide_refresh_rate = 165 --forced refresh rate; no longer needed.
+  -- vim.g.neovide_refresh_rate_idle = 5
+  vim.g.neovide_no_idle = true
   vim.g.neovide_cursor_antialiasing = true
   vim.g.neovide_unlink_border_highlights = true
 
