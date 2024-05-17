@@ -3,7 +3,6 @@
 -- Add any additional options here
 
 vim.opt.scrolloff = 0 -- Lines of context
-vim.o.guifont = "Cascadia Mono:h12"
 vim.g.autoformat = false
 
 AnimateSpeed = {
@@ -23,7 +22,13 @@ if vim.g.neovide then
 
   -- vim.g.neovide_cursor_animation_length = AnimateSpeed.cursor_ms / 1000
   -- vim.g.neovide_scroll_animation_length = AnimateSpeed.scroll_ms / 1000
-  -- print(vim.g.neovide_scroll_animation_length) --use for debugging
+  vim.g.neovide_scroll_animation_length = 0.1
+  -- vim.g.neovide_scroll_animation_far_lines = 9999
+
+  -- Used for debugging only
+  -- print("vim.g.neovide_cursor_animation_length = ", vim.g.neovide_cursor_animation_length)
+  -- print("vim.g.neovide_scroll_animation_length = ", vim.g.neovide_scroll_animation_length)
+  -- print("vim.g.neovide_scroll_animation_far_lines = ", vim.g.neovide_scroll_animation_far_lines)
 
   local map = vim.keymap.set
   local function neovide_scale(amount)
