@@ -12,7 +12,7 @@ AnimateSpeed = {
 }
 
 if vim.g.neovide then
-  vim.o.guifont = "Cascadia Mono NF:10"
+  --vim.o.guifont = "Cascadia Mono NF:10"
 
   vim.g.neovide_transparency = 0.8
   -- vim.g.neovide_profiler = true --displays frame rate
@@ -43,5 +43,4 @@ if vim.g.neovide then
 
   map("n", "<C-=>", function() neovide_scale(0.1) end)
   map("n", "<C-->", function() neovide_scale(-0.1) end)
-
 end

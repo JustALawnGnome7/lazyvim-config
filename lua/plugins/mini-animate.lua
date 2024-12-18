@@ -1,42 +1,69 @@
-local animate = require('mini.animate')
-local neovide_undefined = vim.g.neovide == nil
-
 return {
-  "echasnovski/mini.animate",
-  config = {
-    cursor = {
-      enable = neovide_undefined,
-      timing = animate.gen_timing.linear({ duration = AnimateSpeed.cursor_ms, unit = 'total' }),
+  {
+    -- disable snacks scroll when mini.animate is enabled
+    "snacks.nvim",
+    opts = {
+      scroll = { enabled = false },
     },
-    scroll = {
-      enable = true,
-      timing = animate.gen_timing.linear({ duration = AnimateSpeed.scroll_ms, unit = 'total' }),
-      -- Animate equally but with at most 120 steps instead of default 60
-      -- subscroll = animate.gen_subscroll.equal({ max_output_steps = 120 }),
-    },
-    resize = {
-      enable = true,
-      timing = animate.gen_timing.linear({ duration = AnimateSpeed.resize_ms, unit = 'total' }),
-    },
-    -- open = {
-    --   -- Animate for 400 milliseconds with linear easing
-    --   timing = animate.gen_timing.linear({ duration = 400, unit = 'total' }),
-    --
-    --   -- Animate with wiping from nearest edge instead of default static one
-    --   winconfig = animate.gen_winconfig.wipe({ direction = 'from_edge' }),
-    --
-    --   -- Make bigger windows more transparent
-    --   winblend = animate.gen_winblend.linear({ from = 80, to = 100 }),
-    -- },
-    -- close = {
-    --   -- Animate for 400 milliseconds with linear easing
-    --   timing = animate.gen_timing.linear({ duration = 400, unit = 'total' }),
-    --
-    --   -- Animate with wiping to nearest edge instead of default static one
-    --   winconfig = animate.gen_winconfig.wipe({ direction = 'to_edge' }),
-    --
-    --   -- Make bigger windows more transparent
-    --   winblend = animate.gen_winblend.linear({ from = 100, to = 80 }),
-    -- }
+  },
+  {
+    "echasnovski/mini.animate",
+    event = "VeryLazy",
+    cond = vim.g.neovide == nil,
+    opts = function(_, opts)
+      -- don't use animate when scrolling with the mouse
+      local mouse_scrolled = false
+      for _, scroll in ipairs({ "Up", "Down" }) do
+        local key = "<ScrollWheel" .. scroll .. ">"
+        vim.keymap.set({ "", "i" }, key, function()
+          mouse_scrolled = true
+          return key
+        end, { expr = true })
+      end
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "grug-far",
+        callback = function()
+          vim.b.minianimate_disable = true
+        end,
+      })
+
+      Snacks.toggle({
+        name = "Mini Animate",
+        get = function()
+          return not vim.g.minianimate_disable
+        end,
+        set = function(state)
+          vim.g.minianimate_disable = not state
+        end,
+      }):map("<leader>ua")
+
+      local animate = require("mini.animate")
+      return vim.tbl_deep_extend("force", opts, {
+        cursor = {
+          -- enable = neovide_undefined,
+          timing = animate.gen_timing.linear({ duration = AnimateSpeed.cursor_ms, unit = 'total' }),
+        },
+        resize = {
+          -- timing = animate.gen_timing.linear({ duration = 50, unit = "total" }),
+          timing = animate.gen_timing.linear({ duration = AnimateSpeed.resize_ms, unit = "total" }),
+        },
+        scroll = {
+          -- timing = animate.gen_timing.linear({ duration = 150, unit = "total" }),
+          timing = animate.gen_timing.linear({ duration = AnimateSpeed.scroll_ms, unit = "total" }),
+          -- -- Animate equally but with at most 120 steps instead of default 60
+          -- -- subscroll = animate.gen_subscroll.equal({ max_output_steps = 120 }),
+          subscroll = animate.gen_subscroll.equal({
+            predicate = function(total_scroll)
+              if mouse_scrolled then
+                mouse_scrolled = false
+                return false
+              end
+              return total_scroll > 1
+            end,
+          }),
+        },
+      })
+    end,
   }
 }
