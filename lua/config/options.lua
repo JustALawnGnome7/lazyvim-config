@@ -2,6 +2,9 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
+vim.opt.shiftwidth = 4 -- Size of an indent
+vim.opt.tabstop = 4 -- Number of spaces tabs count for
+
 vim.opt.scrolloff = 0 -- Lines of context
 vim.g.autoformat = false
 
@@ -12,7 +15,7 @@ AnimateSpeed = {
 }
 
 if vim.g.neovide then
-  --vim.o.guifont = "Cascadia Mono NF:10"
+  vim.o.guifont = "Cascadia Mono NF:h11"
 
   vim.g.neovide_transparency = 0.8
   -- vim.g.neovide_profiler = true --displays frame rate
