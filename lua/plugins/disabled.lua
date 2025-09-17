@@ -1,3 +1,4 @@
+-- disable flash.nvim because it conflicts with baseline F key functionality
 return {
   {
     "folke/flash.nvim",

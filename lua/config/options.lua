@@ -15,9 +15,9 @@ AnimateSpeed = {
 }
 
 if vim.g.neovide then
-  vim.o.guifont = "Cascadia Mono NF:h11"
+  -- vim.o.guifont = "Cascadia Mono NF:h11"
 
-  vim.g.neovide_transparency = 0.8
+  vim.g.neovide_opacity = 0.85
   -- vim.g.neovide_profiler = true --displays frame rate
   -- vim.g.neovide_refresh_rate = 165 --forced refresh rate; no longer needed.
   -- vim.g.neovide_refresh_rate_idle = 5
