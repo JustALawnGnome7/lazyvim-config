@@ -15,11 +15,7 @@ AnimateSpeed = {
 }
 
 if vim.g.neovide then
-<<<<<<< HEAD
   vim.o.guifont = "Cascadia Mono NF:h11:#e-subpixelantialias"
-=======
-  -- vim.o.guifont = "Cascadia Mono NF:h11"
->>>>>>> refs/remotes/origin/main
 
   vim.g.neovide_opacity = 0.85
   -- vim.g.neovide_profiler = true --displays frame rate
